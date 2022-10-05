@@ -1,0 +1,10 @@
+[submodule "ghrantos/vendor/Genstone"]
+	path = ghrantos/vendor/Genstone
+	url = https://github.com/Th3T3chn0G1t/Genstone
+[submodule "ghrantos/vendor/glad2"]
+	path = ghrantos/vendor/glad2
+	url = https://github.com/Dav1dde/glad
+	branch = glad2
+[submodule "ghrantos/vendor/libbmp"]
+	path = ghrantos/vendor/libbmp
+	url = https://github.com/Th3T3chn0G1t/libbmp
