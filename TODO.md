@@ -5,3 +5,4 @@
 - Write own BMP reader impl
 - Change so `window.h` is no longer the source for OpenGL API decl.
 - Fix object-source dependencies on C3 sources in Make
+- Transparency with a mask color
