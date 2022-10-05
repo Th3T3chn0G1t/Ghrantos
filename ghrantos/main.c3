@@ -4,6 +4,7 @@
 #include <ghrantos/fs.h>
 #include <ghrantos/buffers.h>
 #include <ghrantos/image.h>
+#include <ghrantos/texture.h>
 
 #include <genmemory.h>
 
@@ -28,7 +29,7 @@ fn void main() {
 
         GhrantosShaderProgram_t program = {};
         program.init(&vertex, &fragment);
-        int uniform_shader = glGetUniformLocation(program.handle, "uniform_shader");
+        int uniform_texture = glGetUniformLocation(program.handle, "uniform_texture");
 
         GhrantosVAO_t vao = {};
         vao.init();
@@ -42,16 +43,8 @@ fn void main() {
         GhrantosImage_t image = {};
         image.init("res/test.bmp");
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-
-        uint texture = 0;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, (int) image.width, (int) image.height, 0, GL_BGR, GL_UNSIGNED_BYTE, image.data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        GhrantosTexture_t texture = {};
+        texture.init(&image);
 
         image.deinit();
 
@@ -60,9 +53,8 @@ fn void main() {
             glClear(GL_COLOR_BUFFER_BIT);
 
             program.bind();
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, texture);
-            glUniform1i(uniform_shader, 0);
+            texture.bind(0);
+            glUniform1i(uniform_texture, 0);
             vao.bind();
             glDrawArrays(GL_TRIANGLES, 0, 3);
 
