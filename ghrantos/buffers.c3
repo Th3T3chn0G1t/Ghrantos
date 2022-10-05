@@ -43,7 +43,7 @@ fn void GhrantosVAO_t.bind(GhrantosVAO_t* vao) {
 fn void GhrantosVBO_t.init(GhrantosVBO_t* vbo, GhrantosVertex_t* vertices, size_t vertices_size, uint usage) {
     @ghrantos_tooling_frame() {
         glGenBuffers(1, &vbo.handle); 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo.handle);
+        vbo.bind();
         glBufferData(GL_ARRAY_BUFFER, vertices_size, vertices, usage);
     };
 }
@@ -59,4 +59,25 @@ fn void GhrantosVBO_t.bind(GhrantosVBO_t* vbo) {
         glBindBuffer(GL_ARRAY_BUFFER, vbo.handle);
     };
 }
+
+fn void GhrantosIBO_t.init(GhrantosIBO_t* ibo, uint* indices, size_t indices_size, uint usage) {
+    @ghrantos_tooling_frame() {
+        glGenBuffers(1, &ibo.handle);
+        ibo.bind();
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_size, indices, usage);
+    };
+}
+
+fn void GhrantosIBO_t.deinit(GhrantosIBO_t* ibo) {
+    @ghrantos_tooling_frame() {
+        glDeleteBuffers(1, &ibo.handle);
+    };
+}
+
+fn void GhrantosIBO_t.bind(GhrantosIBO_t* ibo) {
+    @ghrantos_tooling_frame() {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo.handle);
+    };
+}
+
 

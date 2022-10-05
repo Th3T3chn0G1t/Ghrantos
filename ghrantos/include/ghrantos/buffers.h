@@ -29,4 +29,8 @@ extern void GhrantosVAO_t.setup_buffer_attribs(GhrantosVAO_t* vao) @extname("buf
 extern void GhrantosVBO_t.init(GhrantosVBO_t* vbo, GhrantosVertex_t* vertices, size_t vertices_size, uint usage) @extname("buffers_C_GhrantosVBO_t_init");
 extern void GhrantosVBO_t.deinit(GhrantosVBO_t* vbo) @extname("buffers_C_GhrantosVBO_t_deinit");
 extern void GhrantosVBO_t.bind(GhrantosVBO_t* vbo) @extname("buffers_C_GhrantosVBO_t_bind");
+
+extern void GhrantosIBO_t.init(GhrantosIBO_t* ibo, uint* indices, size_t indices_size, uint usage) @extname("buffers_C_GhrantosIBO_t_init");
+extern void GhrantosIBO_t.deinit(GhrantosIBO_t* ibo) @extname("buffers_C_GhrantosIBO_t_deinit");
+extern void GhrantosIBO_t.bind(GhrantosIBO_t* ibo) @extname("buffers_C_GhrantosIBO_t_bind");
 #endif

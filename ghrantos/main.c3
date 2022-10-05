@@ -18,7 +18,13 @@ fn void main() {
         GhrantosVertex_t[*] vertices = {
             {{-0.5, -0.5, 0.0}, {1.0, 1.0, 1.0}, {0.0, 0.0}},
             {{ 0.5, -0.5, 0.0}, {1.0, 1.0, 1.0}, {1.0, 0.0}},
-            {{ 0.0,  0.5, 0.0}, {1.0, 1.0, 1.0}, {0.5, 1.0}}
+            {{ 0.5,  0.5, 0.0}, {1.0, 1.0, 1.0}, {1.0, 1.0}},
+            {{-0.5,  0.5, 0.0}, {1.0, 1.0, 1.0}, {0.0, 1.0}}
+        };
+
+        uint[*] indices = {
+            0, 1, 2,
+            2, 3, 0
         };
 
         GhrantosShaderStage_t vertex = {};
@@ -38,6 +44,9 @@ fn void main() {
         GhrantosVBO_t vbo = {};
         vbo.init(&vertices, $sizeof(vertices), GL_STATIC_DRAW);
 
+        GhrantosIBO_t ibo = {};
+        ibo.init(&indices, $sizeof(indices), GL_STATIC_DRAW);
+
         vao.setup_buffer_attribs();
 
         GhrantosImage_t image = {};
@@ -56,7 +65,8 @@ fn void main() {
             texture.bind(0);
             glUniform1i(uniform_texture, 0);
             vao.bind();
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            ibo.bind();
+            glDrawElements(GL_TRIANGLES, indices.len, GL_UNSIGNED_INT, null);
 
             if(window.get_key_state(GLFW_KEY_ESCAPE)) {
                 GHRANTOS_TOOLED_RETURN();

@@ -9,8 +9,7 @@
 #define GHRANTOS_TOOLED_RETURN(value) {gen_tooling_pop().ensure(); return value;}
 
 macro @ghrantos_tooling_frame(;@body()) {
-    // $assert(0, $$FUNC);
-    gen_tooling_push($$FUNC, (void*) GHRANTOS_APP_NAME /* &$eval($$FUNC) */, $$FILE).ensure();
+    gen_tooling_push($$FUNC, (void*) $$FUNCPTR, $$FILE).ensure();
     @body();
     gen_tooling_pop().ensure();
 }
