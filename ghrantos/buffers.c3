@@ -11,20 +11,13 @@ fn void GhrantosVAO_t.init(GhrantosVAO_t* vao) {
 
 fn void GhrantosVAO_t.setup_buffer_attribs(GhrantosVAO_t* vao) {
     @ghrantos_tooling_frame() {
-        // TODO: Generate from GhrantosVertex_t.fields
         size_t offset = 0;
-        
-        glVertexAttribPointer(0, GhrantosVertex_t.position.len, GL_FLOAT, GL_FALSE, GhrantosVertex_t.sizeof, (void*) offset);
-        glEnableVertexAttribArray(0);
-        offset += GhrantosVertex_t.position.sizeof;
 
-        glVertexAttribPointer(1, GhrantosVertex_t.color.len, GL_FLOAT, GL_FALSE, GhrantosVertex_t.sizeof, (void*) offset);
-        glEnableVertexAttribArray(1);
-        offset += GhrantosVertex_t.color.sizeof;
-
-        glVertexAttribPointer(2, GhrantosVertex_t.uv.len, GL_FLOAT, GL_FALSE, GhrantosVertex_t.sizeof, (void*) offset);
-        glEnableVertexAttribArray(2);
-        offset += GhrantosVertex_t.uv.sizeof;
+        $foreach($i, $field : GhrantosVertex_t.membersof):
+            glVertexAttribPointer($i, $field.typeid.len, GL_FLOAT, GL_FALSE, GhrantosVertex_t.sizeof, (void*) offset);
+            glEnableVertexAttribArray($i);
+            offset += $field.sizeof;
+        $endforeach
     };
 }
 

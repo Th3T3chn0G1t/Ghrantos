@@ -22,8 +22,8 @@ endif
 	@$(ECHO) "$(ACTION_PREFIX)"
 	$(CAT) $(GHRANTOS_DIR)/tmp/$(notdir $*.i) \
 	| $(PERL) -pe 's/^#.*$$//g' \
-	| $(PERL) -pe 's/extern\s+(.+)\);/extern fn \1);/g' \
-	| $(PERL) -pe 's/inline/fn/g' \
+	| $(PERL) -pe 's/\bextern\s+(.+)\);/extern fn \1);/g' \
+	| $(PERL) -pe 's/\binline\b/fn/g' \
 	| $(PERL) -pe 's/->/./g' \
 	| $(PERL) -pe 's/\b__asm\s*\((\s*".*"\s*)+\)//g' \
 	| $(PERL) -0777pe 's/\s*int\s+scandir\([\w*()\s,]+\)\s*;/\ndefine scandir_fn_0_t = fn int(dirent_t**, dirent_t**);\ndefine scandir_fn_1_t = fn int(dirent_t*);\nint scandir(char*, dirent_t***, scandir_fn_0_t, scandir_fn_1_t);\n/gs' \
@@ -77,7 +77,7 @@ endif
 	| $(PERL) -0777pe 's/\buint\s+(alarm|sleep)\s*\(uint\)\s*;/extern fn uint \1(uint);/gs' \
 	| $(PERL) -0777pe 's/\benum\s+(\w+)\s*{\s*(([A-Z_]+,?\s*)+)};/enum \1 {\2}/gs' \
 	| $(PERL) -pe 's/\bFILE\*/C_FILE_t\*/g' \
-	| $(PERL) -pe 's/\bC3_const\b/const/g' \
+	| $(PERL) -pe 's/\bC3_(const|inline)\b/\1/g' \
 	| $(ADDITIONAL_C2C3_PASS) \
 	| $(PERL) -pe 's/^extern fn ([\w\s*]+)([\s*]+)(\w+)\b(.*);$$/\$$if (!\$$defined(C_C3_block_def_\3_t)): extern fn \1\2\3\4; \$$endif;/g' \
 	> $(GHRANTOS_DIR)/tmp/$(notdir $*.c3)

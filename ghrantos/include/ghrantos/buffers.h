@@ -3,10 +3,10 @@
 #include <ghrantos/ghrantos.h>
 
 struct GhrantosVertex_t {
-    float[3] position;
-    float[3] color;
-    float[2] uv;
-};
+    float[<3>] position;
+    float[<3>] color;
+    float[<2>] uv;
+}
 
 struct GhrantosVAO_t {
     uint handle;
