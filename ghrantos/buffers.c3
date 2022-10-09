@@ -9,18 +9,6 @@ fn void GhrantosVAO_t.init(GhrantosVAO_t* vao) {
     };
 }
 
-fn void GhrantosVAO_t.setup_buffer_attribs(GhrantosVAO_t* vao) {
-    @ghrantos_tooling_frame() {
-        size_t offset = 0;
-
-        $foreach($i, $field : GhrantosVertex_t.membersof):
-            glVertexAttribPointer($i, $field.typeid.len, GL_FLOAT, GL_FALSE, GhrantosVertex_t.sizeof, (void*) offset);
-            glEnableVertexAttribArray($i);
-            offset += $field.sizeof;
-        $endforeach
-    };
-}
-
 fn void GhrantosVAO_t.deinit(GhrantosVAO_t* vao) {
     @ghrantos_tooling_frame() {
         glDeleteVertexArrays(1, &vao.handle);
@@ -33,7 +21,7 @@ fn void GhrantosVAO_t.bind(GhrantosVAO_t* vao) {
     };
 }
 
-fn void GhrantosVBO_t.init(GhrantosVBO_t* vbo, GhrantosVertex_t* vertices, size_t vertices_size, uint usage) {
+fn void GhrantosVBO_t.init(GhrantosVBO_t* vbo, void* vertices, size_t vertices_size, uint usage) {
     @ghrantos_tooling_frame() {
         glGenBuffers(1, &vbo.handle); 
         vbo.bind();

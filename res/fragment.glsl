@@ -1,4 +1,4 @@
-#version 330 core
+#version 410 core
 
 in vec3 vertex_color;
 in vec2 vertex_uv;
