@@ -1,6 +1,6 @@
 #include <ghrantos/ghrantos.h>
 #include <ghrantos/fs.h>
-#include <ghrantos/window.h>
+#include <ghrantos/graphics.h>
 #define GHRANTOS_SHADER_IMPL
 #include <ghrantos/shader.h>
 

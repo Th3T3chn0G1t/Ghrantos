@@ -1,5 +1,5 @@
 #include <ghrantos/ghrantos.h>
-#include <ghrantos/window.h>
+#include <ghrantos/graphics.h>
 #define GHRANTOS_BUFFERS_IMPL
 #include <ghrantos/buffers.h>
 

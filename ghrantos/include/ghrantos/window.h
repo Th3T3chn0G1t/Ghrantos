@@ -1,8 +1,8 @@
 #pragma once
 
 #include <ghrantos/ghrantos.h>
+#include <ghrantos/graphics.h>
 
-#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
 struct GhrantosWindow_t {
