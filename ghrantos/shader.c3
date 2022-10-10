@@ -6,7 +6,17 @@
 
 #include <genmemory.h>
 
-fn void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, uint stage_type) {
+fn uint GhrantosShaderStageType_t.gltype(GhrantosShaderStageType_t stage_type) {
+    @ghrantos_tooling_frame() {
+        switch(stage_type) {
+            case VERTEX: GHRANTOS_TOOLED_RETURN(GL_VERTEX_SHADER);
+            case FRAGMENT: GHRANTOS_TOOLED_RETURN(GL_FRAGMENT_SHADER);
+        }
+        GHRANTOS_TOOLED_RETURN(0);
+    };
+}
+
+fn void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, GhrantosShaderStageType_t stage_type) {
     @ghrantos_tooling_frame() {
         GhrantosFSHandle_t handle = {};
         handle.init(path);
@@ -15,7 +25,7 @@ fn void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, uin
 
         stage.stage = stage_type;
 
-        stage.handle = glCreateShader(stage_type);
+        stage.handle = glCreateShader(stage_type.gltype());
         glShaderSource(stage.handle, 1, &stage.source, null);
         glCompileShader(stage.handle);
 

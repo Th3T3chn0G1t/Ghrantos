@@ -55,19 +55,19 @@ fn void main() {
         };
 
         GhrantosShaderStage_t vertex = {};
-        vertex.init("res/vertex.glsl", GL_VERTEX_SHADER);
+        vertex.init("res/vertex.glsl", VERTEX);
 
         GhrantosShaderStage_t fragment = {};
-        fragment.init("res/fragment.glsl", GL_FRAGMENT_SHADER);
+        fragment.init("res/fragment.glsl", FRAGMENT);
 
         GhrantosShaderProgram_t program = {};
         program.init(&vertex, &fragment);
 
         GhrantosShaderStage_t tile_vertex = {};
-        tile_vertex.init("res/tile.glsl", GL_VERTEX_SHADER);
+        tile_vertex.init("res/tile.glsl", VERTEX);
 
         GhrantosShaderStage_t tile_fragment = {};
-        tile_fragment.init("res/fragment.glsl", GL_FRAGMENT_SHADER);
+        tile_fragment.init("res/fragment.glsl", FRAGMENT);
 
         GhrantosShaderProgram_t tile_program = {};
         tile_program.init(&tile_vertex, &tile_fragment);
@@ -77,10 +77,10 @@ fn void main() {
         vao.bind();
 
         GhrantosVBO_t vbo = {};
-        vbo.init(&vertices, $sizeof(vertices), GL_STATIC_DRAW);
+        vbo.init(&vertices, $sizeof(vertices), STATIC_DRAW);
 
         GhrantosIBO_t ibo = {};
-        ibo.init(&indices, $sizeof(indices), GL_STATIC_DRAW);
+        ibo.init(&indices, $sizeof(indices), STATIC_DRAW);
 
         vao.setup_buffer_attribs(GhrantosVertex_t, 0);
 
@@ -89,7 +89,7 @@ fn void main() {
         tile_vao.bind();
 
         GhrantosVBO_t tile_vbo = {};
-        tile_vbo.init(&tiles, $sizeof(tiles), GL_STATIC_DRAW);
+        tile_vbo.init(&tiles, $sizeof(tiles), STATIC_DRAW);
 
         vao.setup_buffer_attribs(GhrantosTile_t, 1);
 

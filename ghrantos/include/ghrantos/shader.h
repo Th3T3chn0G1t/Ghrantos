@@ -2,9 +2,14 @@
 
 #include <ghrantos/ghrantos.h>
 
+enum GhrantosShaderStageType_t {
+    VERTEX,
+    FRAGMENT
+}
+
 struct GhrantosShaderStage_t {
     uint handle;
-    uint stage;
+    GhrantosShaderStageType_t stage;
     char* source;
 }
 
@@ -33,7 +38,9 @@ macro void GhrantosShaderProgram_t.uniform(GhrantosShaderProgram_t* program, cha
 }
 
 #ifndef GHRANTOS_SHADER_IMPL
-extern void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, uint stage_type) @extname("shader_C_GhrantosShaderStage_t_init");
+extern uint GhrantosShaderStageType_t.gltype(GhrantosShaderStageType_t stage_type) @extname("shader_C_GhrantosShaderStageType_t_gltype");
+
+extern void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, GhrantosShaderStageType_t stage_type) @extname("shader_C_GhrantosShaderStage_t_init");
 extern void GhrantosShaderStage_t.deinit(GhrantosShaderStage_t* stage) @extname("shader_C_GhrantosShaderStage_t_deinit");
 
 extern void GhrantosShaderProgram_t.init(GhrantosShaderProgram_t* program, GhrantosShaderStage_t*... stages) @extname("shader_C_GhrantosShaderProgram_t_init");
