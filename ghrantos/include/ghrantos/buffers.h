@@ -42,7 +42,7 @@ macro void GhrantosVAO_t.setup_buffer_attribs(GhrantosVAO_t* vao, $T_vertex_type
             $if($attribproc == 0):
                 glVertexAttribIPointer($i, $field.typeid.len, $gltype, $T_vertex_type.sizeof, (void*) offset);
             $elif($attribproc == 1):
-                glVertexAttribPointer($i, $field.typeid.len, $gltype, GL_FALSE, $T_vertex_type.sizeof, (void*) offset);
+                glVertexAttribPointer($i, $field.typeid.len, $gltype, false, $T_vertex_type.sizeof, (void*) offset);
             $else:
                 glVertexAttribLPointer($i, $field.typeid.len, $gltype, $T_vertex_type.sizeof, (void*) offset);
             $endif;

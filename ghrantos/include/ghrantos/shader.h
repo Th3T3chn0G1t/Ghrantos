@@ -15,6 +15,23 @@ struct GhrantosShaderProgram_t {
     GhrantosShaderStage_t** stages;
 }
 
+macro void GhrantosShaderProgram_t.uniform(GhrantosShaderProgram_t* program, char* name, value) {
+    program.bind();
+    int loc = glGetUniformLocation(program.handle, name);
+    $switch($typeof(value)):
+        $case double:
+            glUniform1f(loc, (float) value);
+        $case float:
+            glUniform1f(loc, value);
+        $case uint:
+            glUniform1ui(loc, value);
+        $case int:
+            glUniform1i(loc, value);
+        $case float[<4>][4]:
+            glUniformMatrix4fv(loc, 1, false, (float*) &value);
+    $endswitch;
+}
+
 #ifndef GHRANTOS_SHADER_IMPL
 extern void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, uint stage_type) @extname("shader_C_GhrantosShaderStage_t_init");
 extern void GhrantosShaderStage_t.deinit(GhrantosShaderStage_t* stage) @extname("shader_C_GhrantosShaderStage_t_deinit");

@@ -62,9 +62,6 @@ fn void main() {
 
         GhrantosShaderProgram_t program = {};
         program.init(&vertex, &fragment);
-        int uniform_texture = glGetUniformLocation(program.handle, "uniform_texture");
-        int uniform_pv = glGetUniformLocation(program.handle, "uniform_pv");
-        int uniform_model = glGetUniformLocation(program.handle, "uniform_model");
 
         GhrantosShaderStage_t tile_vertex = {};
         tile_vertex.init("res/tile.glsl", GL_VERTEX_SHADER);
@@ -74,9 +71,6 @@ fn void main() {
 
         GhrantosShaderProgram_t tile_program = {};
         tile_program.init(&tile_vertex, &tile_fragment);
-        int tile_uniform_texture = glGetUniformLocation(tile_program.handle, "uniform_texture");
-        int tile_uniform_pv = glGetUniformLocation(tile_program.handle, "uniform_pv");
-        int tile_uniform_model = glGetUniformLocation(tile_program.handle, "uniform_model");
 
         GhrantosVAO_t vao = {};
         vao.init();
@@ -161,30 +155,44 @@ fn void main() {
             glClearColor(0.4, 0.4, 0.4, 1.0);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            program.bind();
-            texture.bind(0);
-            glUniform1i(uniform_texture, 0);
-            pv.ident();
-            pv.mul(&projection);
-            pv.mul(&view);
-            glUniformMatrix4fv(uniform_pv, 1, false, (float*) &pv);
-            glUniformMatrix4fv(uniform_model, 1, false, (float*) &model);
-            vao.bind();
-            ibo.bind();
-            glDrawElements(GL_TRIANGLES, indices.len, GL_UNSIGNED_INT, null);
+            {
+                pv.ident();
+                pv.mul(&projection);
+                pv.mul(&view);
+            }
 
-            tile_program.bind();
-            texture.bind(0);
-            glUniform1i(tile_uniform_texture, 0);
-            pv.ident();
-            pv.mul(&projection);
-            pv.mul(&view);
-            glUniformMatrix4fv(tile_uniform_pv, 1, false, (float*) &pv);
-            glUniformMatrix4fv(tile_uniform_model, 1, false, (float*) &tile_model);
-            tile_vao.bind();
+            {
+                program.bind();
 
-            glDrawArraysInstanced(GL_TRIANGLES, 0, 6, tiles.len);
+                texture.bind(0);
+                program.uniform("uniform_texture", 0);
 
+                program.uniform("uniform_pv", pv);
+                program.uniform("uniform_model", model);
+
+                vao.bind();
+                ibo.bind();
+
+                glDrawElements(GL_TRIANGLES, indices.len, GL_UNSIGNED_INT, null);
+            }
+            
+            {
+                tile_program.bind();
+
+                texture.bind(0);
+                tile_program.uniform("uniform_texture", 0);
+
+                tile_program.uniform("uniform_pv", pv);
+                tile_program.uniform("uniform_model", tile_model);
+
+                tile_program.uniform("uniform_atlas_element_extent", 0.5);
+                tile_program.uniform("uniform_tile_extent", 0.25);
+
+                tile_vao.bind();
+
+                glDrawArraysInstanced(GL_TRIANGLES, 0, 6, tiles.len);
+            }
+            
             window.update();
         }
     };
