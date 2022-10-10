@@ -8,6 +8,7 @@
 #include <ghrantos/image.h>
 #include <ghrantos/texture.h>
 #include <ghrantos/math.h>
+#include <ghrantos/transform2d.h>
 
 #include <genmemory.h>
 
@@ -21,6 +22,13 @@ struct GhrantosVertex_t @packed {
 
 struct GhrantosTile_t @packed {
     uint[1] id;
+}
+
+void ghrantos_resize_projection(size_t width, size_t height, void* passthrough) {
+    float[<4>][4]* projection = passthrough;
+
+    float aspect_ratio = width / height;
+    projection.ortho(0.1, 100.0, -aspect_ratio, aspect_ratio, 1.0, -1.0);
 }
 
 fn void main() {
@@ -139,33 +147,17 @@ fn void main() {
 
         image.deinit();
 
-        float[<4>][4] tile_model = {};
-        tile_model.ident();
-
-        float[<4>][4] model = {};
-        model.ident();
-        float[<4>][4] view = {};
-        view.ident();
+        GhrantosTransform2D_t tile = {{0.25, -0.75}, {1.0, 1.0}, 0.0};
+        GhrantosTransform2D_t sprite = {{0.25, 0.25}, {0.5, 0.5}, 3.1415 / 4.0};
+        GhrantosTransform2D_t camera = {{0.0, 0.0}, {1.0, 1.0}, 0.0};
         float[<4>][4] projection = {};
         projection.ident();
-
-        float[<*>] translation = {0.25, 0.25, 0.25};
-        float[<*>] scale = {0.5, 0.5, 0.5};
-        float[<*>] rotate_z = {0.0, 0.0, 1.0};
-        model.translate(&translation);
-        model.scale(&scale);
-        model.rotate(&rotate_z, 3.1415 / 4);
-
-        float[<*>] tile_translation = {0.0, -0.75, 0.25};
-        tile_model.translate(&tile_translation);
 
         float aspect_ratio = window_width / window_height;
         projection.ortho(0.1, 100.0, -aspect_ratio, aspect_ratio, 1.0, -1.0);
 
-        float[<4>][4] pv = {};
-        pv.ident();
-        pv.mul(&projection);
-        pv.mul(&view);
+        window.resize_callback = &ghrantos_resize_projection;
+        window.passthrough = &projection;
 
         while (!window.should_close()) {
             if(window.get_key_state(GLFW_KEY_ESCAPE)) {
@@ -175,27 +167,28 @@ fn void main() {
             float[<3>] cam_translate = {};
             float speed = 0.1;
             if(window.get_key_state(GLFW_KEY_W)) {
-                cam_translate = {0.0, -speed, 0.0};
+                camera.translation[1] += speed;
             }
             if(window.get_key_state(GLFW_KEY_S)) {
-                cam_translate = {0.0, speed, 0.0};
+                camera.translation[1] -= speed;
             }
             if(window.get_key_state(GLFW_KEY_A)) {
-                cam_translate = {speed, 0.0, 0.0};
+                camera.translation[0] -= speed;
             }
             if(window.get_key_state(GLFW_KEY_D)) {
-                cam_translate = {-speed, 0.0, 0.0};
+                camera.translation[0] += speed;
             }
-            view.translate(&cam_translate);
 
-            model.rotate(&rotate_z, 0.1);
+            sprite.rotation += 0.1;
 
             float[4] clear_color = {0.4, 0.4, 0.4, 1.0};
             surface.clear(clear_color);
 
+            float[<4>][4] pv = {};
             {
                 pv.ident();
                 pv.mul(&projection);
+                float[<4>][4] view = camera.mat(true);
                 pv.mul(&view);
             }
 
@@ -206,7 +199,7 @@ fn void main() {
                 program.uniform("uniform_texture", 0);
 
                 program.uniform("uniform_pv", pv);
-                program.uniform("uniform_model", model);
+                program.uniform("uniform_model", sprite.mat(false));
 
                 vao.bind();
                 ibo.bind();
@@ -221,7 +214,7 @@ fn void main() {
                 tile_program.uniform("uniform_texture", 0);
 
                 tile_program.uniform("uniform_pv", pv);
-                tile_program.uniform("uniform_model", tile_model);
+                tile_program.uniform("uniform_model", tile.mat(false));
 
                 tile_program.uniform("uniform_atlas_element_extent", (float) atlas_element_extent / (float) tilemap_image.width);
                 tile_program.uniform("uniform_tile_extent", 0.25);

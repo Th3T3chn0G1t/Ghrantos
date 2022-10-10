@@ -5,8 +5,13 @@
 
 #include <GLFW/glfw3.h>
 
+define GhrantosWindowResizeCallback_t = fn void(size_t width, size_t height, void* passthrough);
+
 struct GhrantosWindow_t {
     GLFWwindow_t* glfw_window;
+
+    GhrantosWindowResizeCallback_t resize_callback;
+    void* passthrough;
 }
 
 #ifndef GHRANTOS_WINDOW_IMPL

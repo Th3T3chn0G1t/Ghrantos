@@ -36,9 +36,9 @@ $(GHRANTOS_OUT): ADDITIONAL_C2C3_PASS = \
 									  | $(PERL) -pe 's/^(\w+) bmp_(\w+)\s*\(/extern fn \1 bmp_\2(/g'
 $(GHRANTOS_OUT): LFLAGS = $(GHRANTOS_LFLAGS) $(GEN_CORE_LFLAGS) -lglad -lbmp
 $(GHRANTOS_OUT): LIBDIRS = $(GEN_CORE_LIBDIRS) $(GHRANTOS_DIR)/lib
-$(GHRANTOS_OUT): $(GHRANTOS_OBJECTS) libbmp
+$(GHRANTOS_OUT): $(GHRANTOS_OBJECTS) $(LIBBMP_OUT)
 
-$(GHRANTOS_OBJECTS): glad
+$(GHRANTOS_OBJECTS): $(GLAD_OUT)
 
 .PHONY: clean_ghrantos
 clean_ghrantos:

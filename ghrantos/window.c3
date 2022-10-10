@@ -40,9 +40,11 @@ fn void ghrantos_glfw_error_callback(int errcode, char* message) {
     };
 }
 
-fn void ghrantos_glfw_resize_callback(GLFWwindow* window, int width, int height) {
+fn void ghrantos_glfw_resize_callback(GLFWwindow* glfw_window, int width, int height) {
     @ghrantos_tooling_frame() {
+        GhrantosWindow_t* window = glfwGetWindowUserPointer(glfw_window);
         glViewport(0, 0, width, height);
+        window.resize_callback((size_t) width, (size_t) height, window.passthrough);
     };
 }
 
@@ -56,6 +58,7 @@ fn void GhrantosWindow_t.init(GhrantosWindow_t* window, size_t width, size_t hei
 #endif
 
         window.glfw_window = glfwCreateWindow((int) width, (int) height, title, null, null);
+        glfwSetWindowUserPointer(window.glfw_window, window);
         glfwMakeContextCurrent(window.glfw_window);
 
         glfwSetFramebufferSizeCallback(window.glfw_window, &ghrantos_glfw_resize_callback);

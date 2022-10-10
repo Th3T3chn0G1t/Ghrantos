@@ -14,6 +14,19 @@ macro void float[<4>].mul(float[<4>]* vec, float s) {
     *vec = vec.mul_to(s);
 }
 
+macro void float[<4>].invert(float[<4>]* vec) {
+    for(size_t i = 0; i < vec.len; ++i) {
+        vec[i] = -vec[i];
+    }
+}
+
+// TODO: Generic-ify all vector/vector-taking macros once https://github.com/c3lang/c3c/issues/625 is fixed
+macro void float[<3>].invert(float[<3>]* vec) {
+    for(size_t i = 0; i < vec.len; ++i) {
+        vec[i] = -vec[i];
+    }
+}
+
 macro float[<4>] float[<4>].mul_to(float[<4>]* vec, float s) {
     float[<4>] ret = *vec;
     for(size_t i = 0; i < ret.len; ++i) {
