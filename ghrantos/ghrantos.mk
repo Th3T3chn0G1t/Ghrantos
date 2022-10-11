@@ -34,9 +34,9 @@ $(GHRANTOS_OUT): ADDITIONAL_C2C3_PASS = \
 									  | $(PERL) -pe 's/^enum C_bmp_($(BMP_FUNDAMENTAL_TYPES))_t\s+([^\{:])/C_bmp_\1_t \2/g' \
 									  | $(PERL) -0777pe 's/enum C_bmp_error_t \{BMP_FILE_NOT_OPENED,\s*(([A-Z_]+,?\s*)+)}//gs' \
 									  | $(PERL) -pe 's/^(\w+) bmp_(\w+)\s*\(/extern fn \1 bmp_\2(/g'
-$(GHRANTOS_OUT): LFLAGS = $(GHRANTOS_LFLAGS) $(GEN_CORE_LFLAGS) -lglad -lbmp
+$(GHRANTOS_OUT): LFLAGS = $(GHRANTOS_LFLAGS) $(GEN_CORE_LFLAGS) -lglad -lbmp -lstdc3
 $(GHRANTOS_OUT): LIBDIRS = $(GEN_CORE_LIBDIRS) $(GHRANTOS_DIR)/lib
-$(GHRANTOS_OUT): $(GHRANTOS_OBJECTS) $(LIBBMP_OUT)
+$(GHRANTOS_OUT): $(GHRANTOS_OBJECTS) $(LIBBMP_OUT) $(C3_STDLIB)
 
 $(GHRANTOS_OBJECTS): $(GLAD_OUT)
 

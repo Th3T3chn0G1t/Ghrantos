@@ -1,6 +1,6 @@
-C3C = c3c
-PERL = perl
-PYTHON3 = python3
+C3C ?= c3c
+PERL ?= perl
+PYTHON3 ?= python3
 
 GENSTONE_DIR = ghrantos/vendor/Genstone
 GHRANTOS_DIR = .

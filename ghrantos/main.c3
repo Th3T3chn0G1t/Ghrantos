@@ -1,3 +1,5 @@
+import std::io;
+
 #include <ghrantos/ghrantos.h>
 #include <ghrantos/graphics.h>
 #include <ghrantos/window.h>
@@ -33,6 +35,7 @@ void ghrantos_resize_projection(size_t width, size_t height, void* passthrough) 
 
 fn void main() {
     @ghrantos_tooling_frame() {
+        io::println("Hello, C3 stdlib!");
         gen_log(GEN_LOG_LEVEL_DEBUG, GHRANTOS_APP_NAME, "Hello, Genstone!");
 
         GhrantosWindow_t window = {};

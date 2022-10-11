@@ -8,3 +8,6 @@
 [submodule "ghrantos/vendor/libbmp"]
 	path = ghrantos/vendor/libbmp
 	url = https://github.com/Th3T3chn0G1t/libbmp
+[submodule "ghrantos/vendor/c3c"]
+	path = ghrantos/vendor/c3c
+	url = https://github.com/c3lang/c3c
