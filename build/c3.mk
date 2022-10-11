@@ -8,13 +8,11 @@ GLOBAL_C3FLAGS_STDLIB += --stdlib $(subst $(eval) ,,$(foreach component,$(subst 
 GLOBAL_C3FLAGS += $(EXTRA_C3FLAGS)
 
 ifeq ($(MODE), DEBUG)
-	GLOBAL_C3FLAGS += -g --safe
-	C3OFLAGS = -O0
+	GLOBAL_C3FLAGS += -g --safe -O0
 endif
 
 ifeq ($(MODE), RELEASE)
-	GLOBAL_C3FLAGS += -g0 --fast
-	C3OFLAGS = -O3
+	GLOBAL_C3FLAGS += -g0 --fast -O3
 endif
 
 include $(GHRANTOS_DIR)/build/stdlib.mk
@@ -87,5 +85,5 @@ include $(GHRANTOS_DIR)/build/stdlib.mk
 	> $(GHRANTOS_DIR)/tmp/$(notdir $*.c3)
 	@$(ECHO) "$(ACTION_SUFFIX)"
 
-	@$(ECHO) "$(ACTION_PREFIX)$(CD) $(dir $@) $(AND) $(C3C) compile-only $(GLOBAL_C3FLAGS) $(GLOBAL_C3FLAGS_STDLIB) $(C3OFLAGS) $(C3FLAGS) -o $@ $(foreach component,$(subst /, ,$(dir $<)),../)$(GHRANTOS_DIR)/tmp/$(notdir $*.c3)$(ACTION_SUFFIX)"
-	@$(CD) $(dir $@) $(AND) $(C3C) compile-only $(GLOBAL_C3FLAGS) $(GLOBAL_C3FLAGS_STDLIB) $(C3OFLAGS) $(C3FLAGS) -o $@ $(subst $(eval) ,,$(foreach component,$(subst /, ,$(dir $<)),../))$(GHRANTOS_DIR)/tmp/$(notdir $*.c3)
+	@$(ECHO) "$(ACTION_PREFIX)$(CD) $(dir $@) $(AND) $(C3C) compile-only $(GLOBAL_C3FLAGS) $(GLOBAL_C3FLAGS_STDLIB) $(C3FLAGS) -o $@ $(foreach component,$(subst /, ,$(dir $<)),../)$(GHRANTOS_DIR)/tmp/$(notdir $*.c3)$(ACTION_SUFFIX)"
+	@$(CD) $(dir $@) $(AND) $(C3C) compile-only $(GLOBAL_C3FLAGS) $(GLOBAL_C3FLAGS_STDLIB) $(C3FLAGS) -o $@ $(subst $(eval) ,,$(foreach component,$(subst /, ,$(dir $<)),../))$(GHRANTOS_DIR)/tmp/$(notdir $*.c3)

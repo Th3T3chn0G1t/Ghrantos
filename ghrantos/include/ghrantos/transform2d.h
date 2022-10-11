@@ -9,5 +9,5 @@ struct GhrantosTransform2D_t {
 }
 
 #ifndef GHRANTOS_TRANSFORM2D_IMPL
-extern float[<4>][4] GhrantosTransform2D_t.mat(GhrantosTransform2D_t* transform2d, bool invert) @extname("transform2d_C_GhrantosTransform2D_t_mat");
+extern float[<4>][4] GhrantosTransform2D_t.mat(GhrantosTransform2D_t* transform2d, bool invert = false) @extname("transform2d_C_GhrantosTransform2D_t_mat");
 #endif

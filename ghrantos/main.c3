@@ -1,5 +1,3 @@
-import std::io;
-
 #include <ghrantos/ghrantos.h>
 #include <ghrantos/graphics.h>
 #include <ghrantos/window.h>
@@ -202,7 +200,7 @@ fn void main() {
                 program.uniform("uniform_texture", 0);
 
                 program.uniform("uniform_pv", pv);
-                program.uniform("uniform_model", sprite.mat(false));
+                program.uniform("uniform_model", sprite.mat());
 
                 vao.bind();
                 ibo.bind();
@@ -217,7 +215,7 @@ fn void main() {
                 tile_program.uniform("uniform_texture", 0);
 
                 tile_program.uniform("uniform_pv", pv);
-                tile_program.uniform("uniform_model", tile.mat(false));
+                tile_program.uniform("uniform_model", tile.mat());
 
                 tile_program.uniform("uniform_atlas_element_extent", (float) atlas_element_extent / (float) tilemap_image.width);
                 tile_program.uniform("uniform_tile_extent", 0.25);

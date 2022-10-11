@@ -7,14 +7,9 @@ C3_STDLIB_SOURCES = $(wildcard $(C3_STDLIB_DIR)*.c3) \
 					$(wildcard $(C3_STDLIB_DIR)core/allocators/*.c3) \
 					$(wildcard $(C3_STDLIB_DIR)core/os/*.c3)
 
-ifeq ($(MODE), DEBUG)
-	C3_STDLIB_FLAGS += -O0+
-endif
-
-ifeq ($(MODE), RELEASE)
-	C3_STDLIB_FLAGS += -O3+
-endif
-
-$(C3_STDLIB): $(C3_STDLIB_SOURCES) | $(GHRANTOS_DIR)/lib
-	@$(ECHO) "$(ACTION_PREFIX)$(C3C) static-lib -o $(subst $(STATIC_LIB_SUFFIX),,$@) $(filter %c3,$^) $(GLOBAL_C3FLAGS) $(C3_STDLIB_FLAGS)$(ACTION_SUFFIX)"
-	@$(C3C) static-lib -o $(subst $(STATIC_LIB_SUFFIX),,$@) $(filter %c3,$^) $(GLOBAL_C3FLAGS) $(C3_STDLIB_FLAGS)
+# TODO: \`\` shell eval probably doesn't work on Windows
+$(C3_STDLIB): $(C3_STDLIB_SOURCES) $(GHRANTOS_OBJECTS) | $(GHRANTOS_DIR)/lib
+	@$(ECHO) "$(ACTION_PREFIX)$(C3C) compile-only --obj-out $(C3_STDLIB_DIR) -o $(subst $(STATIC_LIB_SUFFIX),,$@) $(filter %c3,$^) $(GLOBAL_C3FLAGS)$(ACTION_SUFFIX)"
+	@$(C3C) compile-only --obj-out $(C3_STDLIB_DIR) -o $(subst $(STATIC_LIB_SUFFIX),,$@) $(filter %c3,$^) $(GLOBAL_C3FLAGS)
+	@$(ECHO) "$(ACTION_PREFIX)$(AR) -r -c $@ `$(FIND) $(GHRANTOS_DIR) $(FIND_FNAME) "*.p.*.o"` `$(FIND) $(C3_STDLIB_DIR) $(FIND_FNAME) "*.o"`$(ACTION_SUFFIX)"
+	@$(AR) -r -c $@ `$(FIND) $(GHRANTOS_DIR) $(FIND_FNAME) "*.p.*.o"` `$(FIND) $(C3_STDLIB_DIR) $(FIND_FNAME) "*.o"` 

@@ -13,16 +13,23 @@ struct GhrantosShaderStage_t {
     char* source;
 }
 
+define GhrantosUniformMap_t = HashMap<char*, int>;
+
 struct GhrantosShaderProgram_t {
     uint handle;
+
+    GhrantosUniformMap_t uniform_locations;
 
     uint stages_count;
     GhrantosShaderStage_t** stages;
 }
 
 macro void GhrantosShaderProgram_t.uniform(GhrantosShaderProgram_t* program, char* name, value) {
+    int! loc = program.uniform_locations.get(name);
+    if(catch err = loc) {
+        program.uniform_locations.set(name, glGetUniformLocation(program.handle, name));
+    }
     program.bind();
-    int loc = glGetUniformLocation(program.handle, name);
     $switch($typeof(value)):
         $case double:
             glUniform1f(loc, (float) value);

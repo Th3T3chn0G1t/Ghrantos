@@ -1,5 +1,8 @@
 #pragma once
 
+import std::io;
+import std::map;
+
 #include <gencommon.h>
 #include <genlog.h>
 
