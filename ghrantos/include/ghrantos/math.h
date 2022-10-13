@@ -2,7 +2,7 @@
 
 #include <ghrantos/ghrantos.h>
 
-macro float float[<4>].sum(float[<4>]* vec) {
+macro float float[<*>].sum(float[<*>]* vec) {
     float ret = 0.0;
     foreach(e : vec) {
         ret += e;
@@ -10,25 +10,18 @@ macro float float[<4>].sum(float[<4>]* vec) {
     return ret;
 }
 
-macro void float[<4>].mul(float[<4>]* vec, float s) {
+macro void float[<*>].mul(float[<*>]* vec, float s) {
     *vec = vec.mul_to(s);
 }
 
-macro void float[<4>].invert(float[<4>]* vec) {
+macro void float[<*>].invert(float[<*>]* vec) {
     for(size_t i = 0; i < vec.len; ++i) {
         vec[i] = -vec[i];
     }
 }
 
-// TODO: Generic-ify all vector/vector-taking macros once https://github.com/c3lang/c3c/issues/625 is fixed
-macro void float[<3>].invert(float[<3>]* vec) {
-    for(size_t i = 0; i < vec.len; ++i) {
-        vec[i] = -vec[i];
-    }
-}
-
-macro float[<4>] float[<4>].mul_to(float[<4>]* vec, float s) {
-    float[<4>] ret = *vec;
+macro float[<*>] float[<*>].mul_to(float[<*>]* vec, float s) {
+    $typeof(*vec) ret = *vec;
     for(size_t i = 0; i < ret.len; ++i) {
         ret[i] *= s;
     }
@@ -67,13 +60,13 @@ macro float[<4>][4] float[<4>][4].mul_to_n(float[<4>][4]* a, float[<4>][4]* b, s
     return ret;
 }
 
-macro void float[<4>][4].translate(float[<4>][4]* mat, float[<3>]* translation) {
+macro void float[<4>][4].translate(float[<4>][4]* mat, float[<*>]* translation) {
     for(size_t i = 0; i < translation.len; ++i) {
         mat[translation.len] += mat[i].mul_to(translation[i]);
     }
 }
 
-macro void float[<4>][4].scale(float[<4>][4]* mat, float[<3>]* scale) {
+macro void float[<4>][4].scale(float[<4>][4]* mat, float[<*>]* scale) {
     for(size_t i = 0; i < scale.len; ++i) {
         mat[i].mul(scale[i]);
     }

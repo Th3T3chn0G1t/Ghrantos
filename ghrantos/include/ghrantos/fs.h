@@ -17,5 +17,5 @@ struct GhrantosFSHandle_t {
 #ifndef GHRANTOS_FS_IMPL
 extern void GhrantosFSHandle_t.init(GhrantosFSHandle_t* handle, char* path) @extname("fs_C_GhrantosFSHandle_t_init");
 extern void GhrantosFSHandle_t.deinit(GhrantosFSHandle_t* handle) @extname("fs_C_GhrantosFSHandle_t_deinit");
-extern char* GhrantosFSHandle_t.read_all(GhrantosFSHandle_t* handle) @extname("fs_C_GhrantosFSHandle_t_read_all");
+extern GhrantosByteBuffer_t GhrantosFSHandle_t.read_all(GhrantosFSHandle_t* handle) @extname("fs_C_GhrantosFSHandle_t_read_all");
 #endif

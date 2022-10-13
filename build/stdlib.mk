@@ -12,4 +12,4 @@ $(C3_STDLIB): $(C3_STDLIB_SOURCES) $(GHRANTOS_OBJECTS) | $(GHRANTOS_DIR)/lib
 	@$(ECHO) "$(ACTION_PREFIX)$(C3C) compile-only --obj-out $(C3_STDLIB_DIR) -o $(subst $(STATIC_LIB_SUFFIX),,$@) $(filter %c3,$^) $(GLOBAL_C3FLAGS)$(ACTION_SUFFIX)"
 	@$(C3C) compile-only --obj-out $(C3_STDLIB_DIR) -o $(subst $(STATIC_LIB_SUFFIX),,$@) $(filter %c3,$^) $(GLOBAL_C3FLAGS)
 	@$(ECHO) "$(ACTION_PREFIX)$(AR) -r -c $@ `$(FIND) $(GHRANTOS_DIR) $(FIND_FNAME) "*.p.*.o"` `$(FIND) $(C3_STDLIB_DIR) $(FIND_FNAME) "*.o"`$(ACTION_SUFFIX)"
-	@$(AR) -r -c $@ `$(FIND) $(GHRANTOS_DIR) $(FIND_FNAME) "*.p.*.o"` `$(FIND) $(C3_STDLIB_DIR) $(FIND_FNAME) "*.o"` 
+	@$(AR) -r -c $@ `$(FIND) $(GHRANTOS_DIR) $(FIND_FNAME) "std.*.o"` `$(FIND) $(C3_STDLIB_DIR) $(FIND_FNAME) "*.o"` 

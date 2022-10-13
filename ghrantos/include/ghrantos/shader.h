@@ -10,7 +10,6 @@ enum GhrantosShaderStageType_t {
 struct GhrantosShaderStage_t {
     uint handle;
     GhrantosShaderStageType_t stage;
-    char* source;
 }
 
 define GhrantosUniformMap_t = HashMap<char*, int>;
@@ -19,9 +18,6 @@ struct GhrantosShaderProgram_t {
     uint handle;
 
     GhrantosUniformMap_t uniform_locations;
-
-    uint stages_count;
-    GhrantosShaderStage_t** stages;
 }
 
 macro void GhrantosShaderProgram_t.uniform(GhrantosShaderProgram_t* program, char* name, value) {

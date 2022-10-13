@@ -45,20 +45,28 @@ fn void bmp_error_t.ensure(bmp_error_t error) {
     gen_error_attach_backtrace_formatted(error_type, $$LINE, "BMP Error %si: `%t`", error, errname).ensure();
 }
 
+fn void GhrantosImageData_t.reserve(GhrantosImageData_t* data, size_t size) {
+    @ghrantos_tooling_frame() {
+        ghrantos_list_reserve(data, GhrantosPixel_t.sizeof, size);
+    };
+}
+
 fn void GhrantosImage_t.init(GhrantosImage_t* image, char* path) {
     @ghrantos_tooling_frame() {
+        image.data = {};
+
         bmp_img_t bmp = {};
         bmp_img_read(&bmp, path).ensure();
 
         image.width = bmp.img_header.biWidth;
         image.height = bmp.img_header.biHeight;
 
-        gen_memory_allocate_zeroed((void**) &image.data, image.width * image.height, bmp_pixel_t.sizeof).ensure();
+        image.data.reserve(image.width * image.height);
 
         for(size_t y = 0; y < image.height; ++y) {
             for(size_t x = 0; x < image.width; ++x) {
-                bmp_pixel_t pixel = bmp.img_pixels[image.height - (y + 1)][x];
-                ((bmp_pixel_t*) image.data)[x + y * image.width] = pixel;
+                bmp_pixel_t* pixel = &bmp.img_pixels[image.height - (y + 1)][x];
+                image.data.append(*(GhrantosPixel_t*) pixel);
             }
         }
 
@@ -68,7 +76,7 @@ fn void GhrantosImage_t.init(GhrantosImage_t* image, char* path) {
 
 fn void GhrantosImage_t.deinit(GhrantosImage_t* image) {
     @ghrantos_tooling_frame() {
-        gen_memory_free((void**) &image.data).ensure();
+        image.data.free();
     };
 }
 

@@ -15,8 +15,6 @@ ifeq ($(MODE), RELEASE)
 	GLOBAL_C3FLAGS += -g0 --fast -O3
 endif
 
-include $(GHRANTOS_DIR)/build/stdlib.mk
-
 %$(OBJECT_SUFFIX): %.c3 | $(GHRANTOS_DIR)/tmp
 	@$(ECHO) "$(ACTION_PREFIX)$(CLANG) -xc $(GLOBAL_C3_PREPROCESSOR_FLAGS) $(C3_PREPROCESSOR_FLAGS) -E -o $(GHRANTOS_DIR)/tmp/$(notdir $*.i) $<$(ACTION_SUFFIX)"
 	@$(CLANG) -xc $(GLOBAL_C3_PREPROCESSOR_FLAGS) $(C3_PREPROCESSOR_FLAGS) -E -o $(GHRANTOS_DIR)/tmp/$(notdir $*.i) $<

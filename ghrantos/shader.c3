@@ -20,13 +20,13 @@ fn void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, Ghr
     @ghrantos_tooling_frame() {
         GhrantosFSHandle_t handle = {};
         handle.init(path);
-        stage.source = handle.read_all();
+        GhrantosByteBuffer_t source = handle.read_all();
         handle.deinit();
 
         stage.stage = stage_type;
 
         stage.handle = glCreateShader(stage_type.gltype());
-        glShaderSource(stage.handle, 1, &stage.source, null);
+        glShaderSource(stage.handle, 1, &source.entries, null);
         glCompileShader(stage.handle);
 
         int result = 0;
@@ -42,12 +42,13 @@ fn void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, Ghr
 
             gen_error_attach_backtrace_formatted(GEN_ERROR_BAD_OPERATION, $$LINE, "Failed to compile shader `%t`:`%t`", path, log).ensure();
         }
+
+        source.free();
     };
 }
 
 fn void GhrantosShaderStage_t.deinit(GhrantosShaderStage_t* stage) {
     @ghrantos_tooling_frame() {
-        gen_memory_free((void**) &stage.source).ensure();
         glDeleteShader(stage.handle);
     };
 }
@@ -57,11 +58,7 @@ fn void GhrantosShaderProgram_t.init(GhrantosShaderProgram_t* program, GhrantosS
     @ghrantos_tooling_frame() {
         program.handle = glCreateProgram();
 
-        program.stages_count = $sizeof(stages) / GhrantosShaderStage_t.sizeof;
-        gen_memory_allocate_zeroed((void**) &program.stages, program.stages_count, GhrantosShaderStage_t*.sizeof).ensure();
-
         foreach(i, stage : stages) {
-            program.stages[i] = stage;
             glAttachShader(program.handle, stage.handle);
         }
         glLinkProgram(program.handle);
@@ -84,8 +81,8 @@ fn void GhrantosShaderProgram_t.init(GhrantosShaderProgram_t* program, GhrantosS
 
 fn void GhrantosShaderProgram_t.deinit(GhrantosShaderProgram_t* program) {
     @ghrantos_tooling_frame() {
-        gen_memory_free((void**) &program.stages).ensure();
         glDeleteProgram(program.handle);
+        program.uniform_locations.destroy();
     };
 }
 

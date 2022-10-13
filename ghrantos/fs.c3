@@ -17,13 +17,16 @@ fn void GhrantosFSHandle_t.deinit(GhrantosFSHandle_t* handle) {
     };
 }
 
-fn char* GhrantosFSHandle_t.read_all(GhrantosFSHandle_t* handle) {
+fn GhrantosByteBuffer_t GhrantosFSHandle_t.read_all(GhrantosFSHandle_t* handle) {
     @ghrantos_tooling_frame() {
+        GhrantosByteBuffer_t buffer = {};
+
         size_t length = 0;
         gen_filesystem_handle_file_size(&handle.handle, &length).ensure();
-        char* data = null;
-        gen_memory_allocate_zeroed((void**) &data, length + 1, char.sizeof).ensure();
-        gen_filesystem_handle_file_read(&handle.handle, 0, length, data).ensure();
-        GHRANTOS_TOOLED_RETURN(data);
+        buffer.reserve(length + 1);
+        buffer.entries[length] = '\0';
+        gen_filesystem_handle_file_read(&handle.handle, 0, length, buffer.entries).ensure();
+
+        GHRANTOS_TOOLED_RETURN(buffer);
     };
 }
