@@ -11,3 +11,6 @@
 [submodule "ghrantos/vendor/c3c"]
 	path = ghrantos/vendor/c3c
 	url = https://github.com/c3lang/c3c
+[submodule "ghrantos/vendor/tracy"]
+	path = ghrantos/vendor/tracy
+	url = https://github.com/wolfpld/tracy
