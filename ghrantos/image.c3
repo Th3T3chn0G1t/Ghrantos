@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
+
 #include <ghrantos/ghrantos.h>
 #define GHRANTOS_IMAGE_IMPL
 #include <ghrantos/image.h>
@@ -43,12 +46,6 @@ fn void bmp_error_t.ensure(bmp_error_t error) {
     }
 
     gen_error_attach_backtrace_formatted(error_type, $$LINE, "BMP Error %si: `%t`", error, errname).ensure();
-}
-
-fn void GhrantosImageData_t.reserve(GhrantosImageData_t* data, size_t size) {
-    @ghrantos_tooling_frame() {
-        ghrantos_list_reserve(data, GhrantosPixel_t.sizeof, size);
-    };
 }
 
 fn void GhrantosImage_t.init(GhrantosImage_t* image, char* path) {

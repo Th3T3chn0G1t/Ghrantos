@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
+
 #pragma once
 
 import std::io;
@@ -21,19 +24,6 @@ macro @ghrantos_tooling_frame(;@body()) {
     gen_tooling_pop().ensure();
 }
 
-macro ghrantos_list_reserve(list, type_size, size) {
-    usz aligned_size = math::next_power_of_2(size);
-
-    if(!list.capacity) {
-        list.entries = malloc(type_size * aligned_size);
-    }
-    else {
-        list.entries = realloc(list.entries, type_size * aligned_size);
-    }
-    list.capacity = aligned_size;
-}
-
 #ifndef GHRANTOS_IMPL
-extern void GhrantosByteBuffer_t.reserve(GhrantosByteBuffer_t* buffer, size_t size);
 extern void gen_error_t.ensure(gen_error_t* error) @extname("ghrantos_C_gen_error_t_ensure");
 #endif

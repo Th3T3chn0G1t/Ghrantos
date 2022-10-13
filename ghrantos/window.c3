@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
+
 #include <ghrantos/ghrantos.h>
 #define GHRANTOS_WINDOW_IMPL
 #include <ghrantos/window.h>

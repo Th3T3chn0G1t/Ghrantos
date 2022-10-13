@@ -14,3 +14,7 @@
 [submodule "ghrantos/vendor/tracy"]
 	path = ghrantos/vendor/tracy
 	url = https://github.com/wolfpld/tracy
+[submodule "ghrantos/vendor/GLFW"]
+	path = ghrantos/vendor/GLFW
+	url = https://github.com/glfw/glfw
+    ignore = untracked

@@ -1,11 +1,8 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
+
 #define GHRANTOS_IMPL
 #include <ghrantos/ghrantos.h>
-
-fn void GhrantosByteBuffer_t.reserve(GhrantosByteBuffer_t* buffer, size_t size) {
-    @ghrantos_tooling_frame() {
-        ghrantos_list_reserve(buffer, char.sizeof, size);
-    };   
-}
 
 fn void gen_error_t.ensure(gen_error_t* error) {
     if(!error) return;
