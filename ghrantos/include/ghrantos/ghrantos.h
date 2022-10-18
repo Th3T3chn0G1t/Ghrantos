@@ -8,6 +8,9 @@ import std::map;
 import std::math;
 import std::array::list;
 
+#define _SYS_PARAM_H_
+#include <TracyC.h>
+
 #include <gencommon.h>
 #include <genlog.h>
 

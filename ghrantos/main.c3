@@ -87,6 +87,7 @@ fn void main() {
         GhrantosTile_t* tiles = null;
         size_t tiles_len = map.len;
         // size_t tiles_len = 100;
+        // TODO: Replace with list
         gen_memory_allocate_zeroed((void**) &tiles, tiles_len, sizeof(GhrantosTile_t));
         foreach(i, tile : map) {
             // Tilemaps seem to be read from the bottom-left corner LTR upwards for some reason

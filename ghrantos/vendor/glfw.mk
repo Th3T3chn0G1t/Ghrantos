@@ -7,7 +7,6 @@ GLFW_OUT = $(GHRANTOS_DIR)/lib/$(LIB_PREFIX)glfw$(STATIC_LIB_SUFFIX)
 GLFW_FRAMEWORKS = -framework Carbon -framework Cocoa -framework IOKit -framework CoreFoundation
 GLFW_LFLAGS = $(GLFW_FRAMEWORKS) -lobjc
 
-GLFW_INTERNAL_CFLAGS = -Wno-expansion-to-defined -Wno-availability
 ifeq ($(PLATFORM),LINUX)
 GLFW_INTERNAL_CFLAGS += -D_GLFW_X11
 else

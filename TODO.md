@@ -9,3 +9,4 @@
 - Reduce vertex attributes to neccesary to improve bandwidth usage (i.e. `vec2` for pos over `vec3` + uchar layer, does 
 depth test cost perf? Cut vertex colors - do vertex outputs cost perf?)
 - Inject method for avoiding double hash on shader uniform cache map
+- Integrate Tracy allocation tracking with C3 Allocators

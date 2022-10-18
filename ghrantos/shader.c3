@@ -39,6 +39,7 @@ fn void GhrantosShaderStage_t.init(GhrantosShaderStage_t* stage, char* path, Ghr
             glGetShaderiv(stage.handle, GL_INFO_LOG_LENGTH, &length);
 
             char* log = null;
+            // TODO: Replace with list
             gen_memory_allocate_zeroed((void**) &log, length, char.sizeof).ensure();
 
             glGetShaderInfoLog(stage.handle, length, null, log);
@@ -73,6 +74,7 @@ fn void GhrantosShaderProgram_t.init(GhrantosShaderProgram_t* program, GhrantosS
             glGetProgramiv(program.handle, GL_INFO_LOG_LENGTH, &length);
 
             char* log = null;
+            // TODO: Replace with list
             gen_memory_allocate_zeroed((void**) &log, length, char.sizeof);
 
             glGetProgramInfoLog(program.handle, length, null, log);

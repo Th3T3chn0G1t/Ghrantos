@@ -21,6 +21,8 @@ endif
 
 	@$(ECHO) "$(ACTION_PREFIX)"
 	$(CAT) $(GHRANTOS_DIR)/tmp/$(notdir $*.i) \
+	| $(PERL) -pe 's/\(\s+/(/g' \
+	| $(PERL) -pe 's/\s+\)/)/g' \
 	| $(PERL) -pe 's/^#.*$$//g' \
 	| $(PERL) -pe 's/\bextern\s+(.+)\);/extern fn \1);/g' \
 	| $(PERL) -pe 's/\binline\b/fn/g' \
