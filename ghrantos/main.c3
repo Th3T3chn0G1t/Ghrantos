@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
 
-#include <ghrantos/ghrantos.h>
-#include <ghrantos/graphics.h>
-#include <ghrantos/window.h>
-#include <ghrantos/surface.h>
-#include <ghrantos/shader.h>
-#include <ghrantos/fs.h>
-#include <ghrantos/buffers.h>
-#include <ghrantos/image.h>
-#include <ghrantos/texture.h>
-#include <ghrantos/math.h>
-#include <ghrantos/transform2d.h>
+import ghrantos;
+import ghrantos::graphics;
+import ghrantos::window;
+import ghrantos::surface;
+import ghrantos::shader;
+import ghrantos::fs;
+import ghrantos::buffers;
+import ghrantos::image;
+import ghrantos::texture;
+import ghrantos::math;
+import ghrantos::transform2d;
 
 #include <gencommon.h>
 #include <genmemory.h>
@@ -27,7 +27,7 @@ struct GhrantosTile_t @packed {
     uint[1] id;
 }
 
-void ghrantos_resize_projection(size_t width, size_t height, void* passthrough) {
+fn void ghrantos_resize_projection(usz width, usz height, void* passthrough) {
     float[<4>][4]* projection = passthrough;
 
     float aspect_ratio = width / height;
@@ -36,12 +36,12 @@ void ghrantos_resize_projection(size_t width, size_t height, void* passthrough) 
 
 fn void main() {
     @ghrantos_tooling_frame() {
-        gen_log(GEN_LOG_LEVEL_DEBUG, GHRANTOS_APP_NAME, "Hello, Genstone!");
+        c_gen_log(GEN_LOG_LEVEL_DEBUG, GHRANTOS_APP_NAME, "Hello, Genstone!");
 
         GhrantosWindow_t window = {};
         float window_width = 640;
         float window_height = 480;
-        window.init((size_t) window_width, (size_t) window_height, GHRANTOS_APP_NAME);
+        window.init((usz) window_width, (usz) window_height, GHRANTOS_APP_NAME);
 
         GhrantosSurface_t surface = {};
         surface.init(&window);
@@ -85,8 +85,8 @@ fn void main() {
         tilemap.init(&tilemap_image);
 
         GhrantosTile_t* tiles = null;
-        size_t tiles_len = map.len;
-        // size_t tiles_len = 100;
+        usz tiles_len = map.len;
+        // usz tiles_len = 100;
         // TODO: Replace with list
         gen_memory_allocate_zeroed((void**) &tiles, tiles_len, sizeof(GhrantosTile_t));
         foreach(i, tile : map) {
@@ -100,7 +100,7 @@ fn void main() {
                 tiles[i] = GhrantosTile_t{{tile}};
             }
         }
-        // for(size_t i = 0; i < tiles_len; ++i) {
+        // for(usz i = 0; i < tiles_len; ++i) {
         //     tiles[i] = GhrantosTile_t{{(uint) i}};
         // }
 

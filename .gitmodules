@@ -18,3 +18,6 @@
 	path = ghrantos/vendor/GLFW
 	url = https://github.com/glfw/glfw
     ignore = untracked
+[submodule "ghrantos/vendor/C3Bridger"]
+	path = ghrantos/vendor/C3Bridger
+	url = https://github.com/Th3T3chn0G1t/C3Bridger

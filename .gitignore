@@ -1,6 +1,8 @@
 *.o
 *.obj
 
+*.processed
+
 *.a
 *.lib
 

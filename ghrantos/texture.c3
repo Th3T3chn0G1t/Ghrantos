@@ -1,10 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
 
-#include <ghrantos/ghrantos.h>
-#include <ghrantos/graphics.h>
-#define GHRANTOS_TEXTURE_IMPL
-#include <ghrantos/texture.h>
+module ghrantos::texture;
+
+import ghrantos;
+import ghrantos::graphics;
+import ghrantos::image;
+
+struct GhrantosTexture_t {
+    uint handle;
+}
 
 fn void GhrantosTexture_t.init(GhrantosTexture_t* texture, GhrantosImage_t* image) {
     @ghrantos_tooling_frame() {

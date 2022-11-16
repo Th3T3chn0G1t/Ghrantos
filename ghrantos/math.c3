@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
 
-#pragma once
+module ghrantos::math;
 
-#include <ghrantos/ghrantos.h>
+import std::math;
+
+// TODO: Fix math procs to use full initializer lists
 
 macro float float[<*>].sum(float[<*>]* vec) {
     float ret = 0.0;
@@ -18,14 +20,14 @@ macro void float[<*>].mul(float[<*>]* vec, float s) {
 }
 
 macro void float[<*>].invert(float[<*>]* vec) {
-    for(size_t i = 0; i < vec.len; ++i) {
+    for(usz i = 0; i < vec.len; ++i) {
         vec[i] = -vec[i];
     }
 }
 
 macro float[<*>] float[<*>].mul_to(float[<*>]* vec, float s) {
     $typeof(*vec) ret = *vec;
-    for(size_t i = 0; i < ret.len; ++i) {
+    for(usz i = 0; i < ret.len; ++i) {
         ret[i] *= s;
     }
     return ret;
@@ -33,7 +35,7 @@ macro float[<*>] float[<*>].mul_to(float[<*>]* vec, float s) {
 
 macro void float[<4>][4].ident(float[<4>][4]* mat) {
     *mat = {};
-    for(size_t i = 0; i < mat.len; ++i) {
+    for(usz i = 0; i < mat.len; ++i) {
         mat[i][i] = 1.0;
     }
 }
@@ -46,11 +48,11 @@ macro float[<4>][4] float[<4>][4].mul_to(float[<4>][4]* a, float[<4>][4]* b) {
     return a.mul_to_n(b, a.len);
 }
 
-macro float[<4>][4] float[<4>][4].mul_to_n(float[<4>][4]* a, float[<4>][4]* b, size_t n) {
+macro float[<4>][4] float[<4>][4].mul_to_n(float[<4>][4]* a, float[<4>][4]* b, usz n) {
     float[<4>][4] ret = {};
-    for(size_t i = 0; i < a.len; ++i) {
-        for(size_t j = 0; j < a.len; ++j) {
-            for(size_t k = 0; k < a.len; ++k) {
+    for(usz i = 0; i < a.len; ++i) {
+        for(usz j = 0; j < a.len; ++j) {
+            for(usz k = 0; k < a.len; ++k) {
                 if(i < n && j < n && k < n) {
                     ret[i][j] += a[k][j] * b[i][k];
                 }
@@ -64,13 +66,13 @@ macro float[<4>][4] float[<4>][4].mul_to_n(float[<4>][4]* a, float[<4>][4]* b, s
 }
 
 macro void float[<4>][4].translate(float[<4>][4]* mat, float[<*>]* translation) {
-    for(size_t i = 0; i < translation.len; ++i) {
+    for(usz i = 0; i < translation.len; ++i) {
         mat[translation.len] += mat[i].mul_to(translation[i]);
     }
 }
 
 macro void float[<4>][4].scale(float[<4>][4]* mat, float[<*>]* scale) {
-    for(size_t i = 0; i < scale.len; ++i) {
+    for(usz i = 0; i < scale.len; ++i) {
         mat[i].mul(scale[i]);
     }
 }
@@ -151,5 +153,4 @@ macro void float[<4>][4].ortho(float[<4>][4]* mat, float near, float far, float 
     mat[3][3] = 1.0;
 }
 
-#ifndef GHRANTOS_MATH_IMPL
-#endif
+

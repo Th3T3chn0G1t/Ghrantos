@@ -1,5 +1,4 @@
 C3C ?= c3c
-PERL ?= perl
 PYTHON3 ?= python3
 
 GENSTONE_DIR = ghrantos/vendor/Genstone
@@ -23,6 +22,6 @@ clean: $(CLEAN_TARGETS) clean_ghrantos
 .PHONY: test
 test: all $(TEST_TARGETS) test_ghrantos
 
-$(GHRANTOS_DIR)/tmp $(GHRANTOS_DIR)/lib:
+$(GHRANTOS_DIR)/tmp $(GHRANTOS_DIR)/tmp/ghrantos $(GHRANTOS_DIR)/lib:
 	@$(ECHO) "$(ACTION_PREFIX)$(MKDIR) $@$(ACTION_SUFFIX)"
 	-@$(MKDIR) $@

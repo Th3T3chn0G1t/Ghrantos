@@ -1,11 +1,22 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
 
-#include <ghrantos/ghrantos.h>
-#define GHRANTOS_WINDOW_IMPL
-#include <ghrantos/window.h>
+module ghrantos::window;
 
+import ghrantos;
+import ghrantos::graphics;
+
+#include <GLFW/glfw3.h>
 #include <genstring.h>
+
+define GhrantosWindowResizeCallback_t = fn void(usz width, usz height, void* passthrough);
+
+struct GhrantosWindow_t {
+    GLFWwindow_t* glfw_window;
+
+    GhrantosWindowResizeCallback_t resize_callback;
+    void* passthrough;
+}
 
 static initialize {
     glfwSetErrorCallback(&ghrantos_glfw_error_callback);
@@ -47,11 +58,11 @@ fn void ghrantos_glfw_resize_callback(GLFWwindow* glfw_window, int width, int he
     @ghrantos_tooling_frame() {
         GhrantosWindow_t* window = glfwGetWindowUserPointer(glfw_window);
         glViewport(0, 0, width, height);
-        window.resize_callback((size_t) width, (size_t) height, window.passthrough);
+        window.resize_callback((usz) width, (usz) height, window.passthrough);
     };
 }
 
-fn void GhrantosWindow_t.init(GhrantosWindow_t* window, size_t width, size_t height, char* title) {
+fn void GhrantosWindow_t.init(GhrantosWindow_t* window, usz width, usz height, char* title) {
     @ghrantos_tooling_frame() {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

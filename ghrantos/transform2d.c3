@@ -1,10 +1,16 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
 
-#include <ghrantos/ghrantos.h>
-#include <ghrantos/math.h>
-#define GHRANTOS_TRANSFORM2D_IMPL
-#include <ghrantos/transform2d.h>
+module ghrantos::transform2d;
+
+import ghrantos;
+import ghrantos::math;
+
+struct GhrantosTransform2D_t {
+    float[<2>] translation;
+    float[<2>] scale;
+    float rotation;
+}
 
 fn float[<4>][4] GhrantosTransform2D_t.mat(GhrantosTransform2D_t* transform2d, bool invert) {
     @ghrantos_tooling_frame() {

@@ -1,13 +1,53 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Copyright (C) 2022 Emily "TTG" Banerjee <prs.ttg+ghrantos@pm.me>
 
-#include <ghrantos/ghrantos.h>
-#include <ghrantos/fs.h>
-#include <ghrantos/graphics.h>
-#define GHRANTOS_SHADER_IMPL
-#include <ghrantos/shader.h>
+module ghrantos::shader;
+
+import ghrantos;
+import ghrantos::graphics;
+import ghrantos::fs;
+
+import std::map;
 
 #include <genmemory.h>
+
+enum GhrantosShaderStageType_t {
+    VERTEX,
+    FRAGMENT
+}
+
+struct GhrantosShaderStage_t {
+    uint handle;
+    GhrantosShaderStageType_t stage;
+}
+
+define GhrantosUniformMap_t = HashMap<char*, int>;
+
+struct GhrantosShaderProgram_t {
+    uint handle;
+
+    GhrantosUniformMap_t uniform_locations;
+}
+
+macro void GhrantosShaderProgram_t.uniform(GhrantosShaderProgram_t* program, char* name, value) {
+    int! loc = program.uniform_locations.get(name);
+    if(catch err = loc) {
+        program.uniform_locations.set(name, glGetUniformLocation(program.handle, name));
+    }
+    program.bind();
+    $switch($typeof(value)):
+        $case double:
+            glUniform1f(loc, (float) value);
+        $case float:
+            glUniform1f(loc, value);
+        $case uint:
+            glUniform1ui(loc, value);
+        $case int:
+            glUniform1i(loc, value);
+        $case float[<4>][4]:
+            glUniformMatrix4fv(loc, 1, false, (float*) &value);
+    $endswitch;
+}
 
 fn uint GhrantosShaderStageType_t.gltype(GhrantosShaderStageType_t stage_type) {
     @ghrantos_tooling_frame() {
